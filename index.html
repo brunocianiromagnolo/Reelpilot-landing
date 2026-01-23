@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reelpilot | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.1);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.1);
+            --tiktok: #ff0050;
+            --instagram: #c13584;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            --gradient-2: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-mesh {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-mesh::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 60%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        .bg-mesh::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        @keyframes meshMove {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(2%, 2%) rotate(1deg);
+            }
+
+            66% {
+                transform: translate(-1%, 1%) rotate(-1deg);
+            }
+        }
+
+        /* Navbar */
+        nav {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+            }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            background: var(--success-bg);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* User Dropdown Menu */
+        .user-menu {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.875rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: background 0.2s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .dropdown-item .icon {
+            font-size: 1.1rem;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0.25rem 0;
+        }
+
+        /* Main Layout */
+        main {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .stat-icon.purple {
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .stat-icon.green {
+            background: var(--success-bg);
+        }
+
+        .stat-icon.yellow {
+            background: var(--warning-bg);
+        }
+
+        .stat-icon.cyan {
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Stat Breakdown */
+        .stat-breakdown {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .breakdown-label {
+            color: var(--text-secondary);
+        }
+
+        .breakdown-value {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-light);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="email"],
+        input[type="url"],
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Drag & Drop Upload */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-zone.dragover {
+            transform: scale(1.01);
+        }
+
+        .upload-zone.has-file {
+            border-color: var(--success);
+            border-style: solid;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.5;
+        }
+
+        .upload-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .upload-preview {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .upload-zone.has-file .upload-preview {
+            display: flex;
+        }
+
+        .upload-zone.has-file .upload-empty {
+            display: none;
+        }
+
+        .preview-thumb {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-primary);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .preview-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            word-break: break-all;
+        }
+
+        .preview-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .preview-remove {
+            margin-left: auto;
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .preview-remove:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Character Counter */
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.danger {
+            color: var(--danger);
+        }
+
+        /* Platform Select */
+        .platform-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .platform-option {
+            flex: 1;
+            position: relative;
+            min-width: calc(50% - 0.375rem);
+        }
+
+        .platform-option.whop {
+            flex: 1 1 100%;
+            width: 100%;
+        }
+
+        .platform-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .platform-card {
+            border: 2px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+        }
+
+        .platform-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .platform-card .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .platform-option input:checked+.platform-card {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .platform-option input:checked+.platform-card .name {
+            color: var(--primary-light);
+        }
+
+        .platform-option.tiktok input:checked+.platform-card {
+            border-color: var(--tiktok);
+            background: rgba(255, 0, 80, 0.1);
+        }
+
+        .platform-option.tiktok input:checked+.platform-card .name {
+            color: var(--tiktok);
+        }
+
+        .platform-option.instagram input:checked+.platform-card {
+            border-color: var(--instagram);
+            background: rgba(193, 53, 132, 0.1);
+        }
+
+        .platform-option.instagram input:checked+.platform-card .name {
+            color: var(--instagram);
+        }
+
+        .platform-option.whop input:checked+.platform-card {
+            border-color: #ff6b00;
+            background: rgba(255, 107, 0, 0.1);
+        }
+
+        .platform-option.whop input:checked+.platform-card .name {
+            color: #ff6b00;
+        }
+
+        /* Whop Sections */
+        .whop-section {
+            transition: all 0.3s ease;
+        }
+
+        .whop-icon {
+            color: #ff6b00;
+        }
+
+        .whop-icon-img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 4px;
+            margin-bottom: 2px;
+        }
+
+        .whop-select {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            color: var(--text-main);
+            width: 100%;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .whop-select option {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            padding: 0.5rem;
+        }
+
+        .whop-select:focus {
+            outline: none;
+            border-color: #ff6b00;
+            background: var(--bg-secondary);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.15rem;
+            cursor: pointer;
+            accent-color: #ff6b00;
+        }
+
+        .checkbox-label span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Submit Button */
+        .btn-primary {
+            width: 100%;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        .btn-primary.loading .spinner {
+            display: block;
+        }
+
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Secondary Button */
+        .btn-secondary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-light);
+            color: var(--text-main);
+        }
+
+        /* Posts Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Posts Grid */
+        .posts-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 380px);
+            padding-right: 0.5rem;
+        }
+
+        .posts-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            animation: cardEnter 0.4s ease-out backwards;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .post-card:hover {
+            border-color: var(--border-light);
+            transform: translateX(4px);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-platforms {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .platform-badge {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-badge.tiktok {
+            color: var(--tiktok);
+            border-color: rgba(255, 0, 80, 0.3);
+            background: rgba(255, 0, 80, 0.1);
+        }
+
+        .platform-badge.instagram {
+            color: var(--instagram);
+            border-color: rgba(193, 53, 132, 0.3);
+            background: rgba(193, 53, 132, 0.1);
+        }
+
+        .post-status {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-pending {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .status-processing {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-light);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .status-published {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .status-failed {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        /* Whop Status Badges */
+        .status-whop-sent {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            font-size: 0.75rem;
+        }
+
+        .status-whop-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            font-size: 0.75rem;
+        }
+
+        .status-whop-pending {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            font-size: 0.75rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-whop-scheduled {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            font-size: 0.75rem;
+        }
+
+        .post-content {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+        }
+
+        .post-time {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .countdown {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .post-actions a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .post-actions a:hover {
+            color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-card {
+            height: 120px;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            min-width: 300px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .toast-message {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-mesh"></div>
+
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">🚀</div>
+            <span>Reelpilot</span>
+        </div>
+        <div class="nav-right">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Connected
+            </div>
+            <div class="user-menu">
+                <div class="avatar" onclick="toggleUserMenu()">B</div>
+                <div class="dropdown-menu" id="userDropdown">
+                    <a href="onboarding.html" class="dropdown-item">
+                        <span class="icon">🔗</span>
+                        <span>Vincular Cuentas</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="handleLogout()">
+                        <span class="icon">🚪</span>
+                        <span>Cerrar Sesión</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Total Posts</span>
+                    <div class="stat-icon purple">📊</div>
+                </div>
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-breakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Publicados:</span>
+                        <span class="breakdown-value" id="breakdownPublished">0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Pendientes:</span>
+                        <span class="breakdown-value" id="breakdownPending">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Published</span>
+                    <div class="stat-icon green">✅</div>
+                </div>
+                <div class="stat-value" id="statPublished">0</div>
+                <div class="stat-change">Successfully posted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Pending</span>
+                    <div class="stat-icon yellow">⏳</div>
+                </div>
+                <div class="stat-value" id="statPending">0</div>
+                <div class="stat-change">Scheduled</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Success Rate</span>
+                    <div class="stat-icon cyan">📈</div>
+                </div>
+                <div class="stat-value" id="statRate">100%</div>
+                <div class="stat-change">Last 30 days</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Left: Schedule Form -->
+            <section>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📅</div>
+                        <h2>Schedule Post</h2>
+                    </div>
+
+                    <form id="scheduleForm">
+                        <div class="form-group">
+                            <label>User Email</label>
+                            <input type="email" id="user_id" value="demo@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Video File</label>
+                            <div class="upload-zone" id="uploadZone">
+                                <div class="upload-empty">
+                                    <div class="upload-icon">📁</div>
+                                    <div class="upload-text">Drag & drop your video here</div>
+                                    <div class="upload-subtext">or click to browse • MP4, MOV up to 50MB</div>
+                                </div>
+                                <div class="upload-preview">
+                                    <div class="preview-thumb">🎬</div>
+                                    <div class="preview-info">
+                                        <h4 id="fileName">video.mp4</h4>
+                                        <div class="preview-meta" id="fileMeta">0 MB</div>
+                                    </div>
+                                    <button type="button" class="preview-remove" id="removeFile">✕</button>
+                                </div>
+                            </div>
+                            <input type="file" id="video_file" accept="video/*">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Caption</label>
+                            <div class="textarea-wrapper">
+                                <textarea id="caption" rows="3" placeholder="Write your caption here..."
+                                    maxlength="2200">Check out this amazing video! 🚀</textarea>
+                                <span class="char-counter" id="charCounter">33 / 2200</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Hashtags</label>
+                            <input type="text" id="hashtags" value="#viral #trending #demo"
+                                placeholder="#hashtag1 #hashtag2">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Platforms</label>
+                            <div class="platform-select">
+                                <div class="platform-option tiktok">
+                                    <input type="checkbox" name="platform" value="tiktok" checked>
+                                    <div class="platform-card">
+                                        <span class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2859 3333" width="28"
+                                                height="28">
+                                                <path fill="#25F4EE"
+                                                    d="M2081 0c55 473 319 755 778 785v532c-266 26-499-61-770-225v995c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358V1h551z" />
+                                                <path fill="#FE2C55"
+                                                    d="M1936 1894c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358V1h551c55 473 319 755 778 785v532c-266 26-499-61-770-225v995z" />
+                                                <path fill="#000"
+                                                    d="M1609 1894c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358V1h551c55 473 319 755 778 785v532c-266 26-499-61-770-225v995z" />
+                                            </svg>
+                                        </span>
+                                        <span class="name">TikTok</span>
+                                    </div>
+                                </div>
+                                <div class="platform-option instagram">
+                                    <input type="checkbox" name="platform" value="instagram" checked>
+                                    <div class="platform-card">
+                                        <span class="icon">
+                                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <linearGradient id="instagramGradient" x1="0%" y1="100%" x2="100%"
+                                                        y2="0%">
+                                                        <stop offset="0%" style="stop-color:#FD5949;stop-opacity:1" />
+                                                        <stop offset="50%" style="stop-color:#D6249F;stop-opacity:1" />
+                                                        <stop offset="100%" style="stop-color:#285AEB;stop-opacity:1" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path
+                                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                                                    fill="url(#instagramGradient)" />
+                                            </svg>
+                                        </span>
+                                        <span class="name">Instagram</span>
+                                    </div>
+                                </div>
+                                <div class="platform-option whop">
+                                    <input type="checkbox" name="platform" value="whop">
+                                    <div class="platform-card">
+                                        <span class="icon">
+                                            <svg viewBox="0 0 160 130" xmlns="http://www.w3.org/2000/svg" width="28"
+                                                height="28">
+                                                <path fill="#FA4616"
+                                                    d="M17.157 29.219c-12.491 0-21.101 5.48-27.617 11.678 0 0-2.632 2.494-2.598 2.57l27.366 27.365 27.361-27.365c-5.182-7.134-14.951-14.248-24.512-14.248Z" />
+                                                <path fill="#FA4616"
+                                                    d="M84.723 29.222c-12.491 0-21.101 5.481-27.618 11.679 0 0-2.403 2.427-2.512 2.569l-33.825 33.83 27.323 27.323 61.143-61.153c-5.181-7.134-14.946-14.248-24.511-14.248Z" />
+                                                <path fill="#FA4616"
+                                                    d="M152.488 29.219c-12.491 0-21.101 5.48-27.617 11.678 0 0-2.503 2.446-2.598 2.57l-67.665 67.673 7.162 7.162c11.081 11.081 29.219 11.081 40.299 0l74.845-74.835H177c-5.182-7.134-14.947-14.248-24.512-14.248Z" />
+                                            </svg>
+                                        </span>
+                                        <span class="name">Whop</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Whop Campaign Section -->
+                        <div class="form-group whop-section" style="display: none;">
+                            <label>
+                                <img src="assets/whop-logo.png" class="whop-icon-img" alt="Whop"> WHOP CAMPAIGN
+                            </label>
+                            <select id="whop_campaign" class="whop-select">
+                                <option value="">Select a campaign...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group whop-section" style="display: none;">
+                            <label>
+                                <span class="whop-icon">🎁</span> CONTENT REWARD
+                            </label>
+                            <select id="content_reward" class="whop-select">
+                                <option value="">Select Reward...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group whop-section" style="display: none;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="auto_submit_whop" checked>
+                                <span>Links will be submitted automatically after publishing. Your post will appear in
+                                    "Ready for Whop" section.</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Schedule For</label>
+                            <input type="datetime-local" id="scheduled_at" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <span class="btn-text">🚀 Schedule Post</span>
+                            <div class="spinner"></div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right: Posts List -->
+            <section>
+                <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+                    <div class="section-header">
+                        <div class="card-header" style="margin-bottom: 0;">
+                            <div class="card-icon">📋</div>
+                            <h2>Scheduled Posts</h2>
+                        </div>
+                        <button class="btn-secondary" onclick="fetchPosts()">
+                            🔄 Refresh
+                        </button>
+                    </div>
+
+                    <div class="posts-container">
+                        <div id="postsList" class="posts-grid">
+                            <!-- Loading skeleton -->
+                            <div class="skeleton skeleton-card"></div>
+                            <div class="skeleton skeleton-card"></div>
+                            <div class="skeleton skeleton-card"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Posts Publicados Section -->
+        <section style="margin-top: 2rem;">
+            <div class="card">
+                <div class="section-header">
+                    <div class="card-header" style="margin-bottom: 0;">
+                        <div class="card-icon">✅</div>
+                        <h2>Posts Publicados</h2>
+                    </div>
+                    <button class="btn-secondary" onclick="fetchPublishedPosts()">
+                        🔄 Refresh
+                    </button>
+                </div>
+
+                <div class="posts-container">
+                    <div id="publishedPostsList" class="posts-grid">
+                        <!-- Loading skeleton -->
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Posts Pendientes Section -->
+        <section style="margin-top: 2rem;">
+            <div class="card">
+                <div class="section-header">
+                    <div class="card-header" style="margin-bottom: 0;">
+                        <div class="card-icon">⏳</div>
+                        <h2>Posts Pendientes</h2>
+                    </div>
+                    <button class="btn-secondary" onclick="fetchPendingPosts()">
+                        🔄 Refresh
+                    </button>
+                </div>
+
+                <div class="posts-container">
+                    <div id="pendingPostsList" class="posts-grid">
+                        <!-- Loading skeleton -->
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initDateTime();
+            initCharCounter();
+            initUploadZone();
+            fetchPosts();
+        });
+
+        // Set default datetime to 1 hour from now
+        function initDateTime() {
+            const now = new Date();
+            now.setHours(now.getHours() + 1);
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('scheduled_at').value = now.toISOString().slice(0, 16);
+        }
+
+        // Character counter for caption
+        function initCharCounter() {
+            const caption = document.getElementById('caption');
+            const counter = document.getElementById('charCounter');
+
+            function updateCounter() {
+                const length = caption.value.length;
+                const max = 2200;
+                counter.textContent = `${length} / ${max}`;
+
+                counter.classList.remove('warning', 'danger');
+                if (length > max * 0.9) {
+                    counter.classList.add('danger');
+                } else if (length > max * 0.75) {
+                    counter.classList.add('warning');
+                }
+            }
+
+            caption.addEventListener('input', updateCounter);
+            updateCounter();
+        }
+
+        // Drag & Drop Upload
+        function initUploadZone() {
+            const zone = document.getElementById('uploadZone');
+            const input = document.getElementById('video_file');
+            const removeBtn = document.getElementById('removeFile');
+
+            zone.addEventListener('click', () => input.click());
+
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    input.files = e.dataTransfer.files;
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+
+            input.addEventListener('change', () => {
+                if (input.files.length) {
+                    handleFileSelect(input.files[0]);
+                }
+            });
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                input.value = '';
+                zone.classList.remove('has-file');
+            });
+        }
+
+        function handleFileSelect(file) {
+            const zone = document.getElementById('uploadZone');
+            const fileName = document.getElementById('fileName');
+            const fileMeta = document.getElementById('fileMeta');
+            const maxSize = 50 * 1024 * 1024; // 50MB
+
+            if (file.size > maxSize) {
+                showToast('error', 'File Too Large', 'Please upload a video smaller than 50MB.');
+                document.getElementById('video_file').value = '';
+                return;
+            }
+
+            fileName.textContent = file.name;
+            fileMeta.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+            zone.classList.add('has-file');
+        }
+
+        // Fetch Posts
+        async function fetchPosts() {
+            const container = document.getElementById('postsList');
+
+            try {
+                const response = await fetch('/posts');
+                const data = await response.json();
+
+                // Update stats
+                updateStats(data.posts || []);
+
+                if (!data.posts || data.posts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <div class="empty-title">No posts yet</div>
+                            <div>Schedule your first post to get started!</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.posts.map((post, i) => `
+                    <div class="post-card" style="animation-delay: ${i * 0.05}s">
+                        <div class="post-header">
+                            <div class="post-platforms">
+                                ${post.platforms.map(p => `<span class="platform-badge ${p}">${p}</span>`).join('')}
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span class="post-status status-${post.state}">${post.state}</span>
+                                ${post.whop_campaign_url ? `
+                                    ${post.whop_submitted ?
+                            `<span class="post-status status-whop-sent" title="Submitted at ${post.whop_submitted_at}">✅ Whop</span>` :
+                            post.whop_submission_error ?
+                                `<span class="post-status status-whop-error" title="${post.whop_submission_error}">❌ Whop</span>` :
+                                post.state === 'published' ?
+                                    `<span class="post-status status-whop-pending" title="Waiting 5 min to submit">🟡 Whop</span>` :
+                                    `<span class="post-status status-whop-scheduled" title="${post.whop_reward_title}">🎁 Whop</span>`
+                        }
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            ${post.caption || 'No caption'} ${post.hashtags || ''}
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-time">
+                                📅 ${new Date(post.scheduled_at).toLocaleString()}
+                                ${post.state === 'pending' ? `<span class="countdown" data-time="${post.scheduled_at}"></span>` : ''}
+                            </div>
+                            ${post.state === 'published' && post.posts_results ? `
+                                <div class="post-actions">
+                                    <a href="#">View Results ↗</a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+                // Start countdown timers
+                updateCountdowns();
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-title">Connection Error</div>
+                        <div>Is the server running?</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Update Stats
+        function updateStats(posts = []) {
+            // Ensure posts is an array, default to empty array if not
+            const postsArray = Array.isArray(posts) ? posts : [];
+
+            const total = postsArray.length;
+            const published = postsArray.filter(p => p.state === 'published').length;
+            const pending = postsArray.filter(p => p.state === 'pending').length;
+            const failed = postsArray.filter(p => p.state === 'failed').length;
+            const rate = total > 0 ? Math.round((published / (published + failed || 1)) * 100) : 0;
+
+            // Update all stat displays
+            animateValue('statTotal', total);
+            animateValue('statPublished', published);
+            animateValue('statPending', pending);
+            animateValue('breakdownPublished', published);
+            animateValue('breakdownPending', pending);
+            document.getElementById('statRate').textContent = `${rate}%`;
+        }
+
+        // Fetch Published Posts
+        async function fetchPublishedPosts() {
+            const container = document.getElementById('publishedPostsList');
+
+            try {
+                const response = await fetch('/posts');
+                const data = await response.json();
+                const publishedPosts = (data.posts || []).filter(p => p.state === 'published');
+
+                if (publishedPosts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <div class="empty-title">No published posts yet</div>
+                            <div>Your published posts will appear here</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = publishedPosts.map((post, i) => `
+                    <div class="post-card" style="animation-delay: ${i * 0.05}s">
+                        <div class="post-header">
+                            <div class="post-platforms">
+                                ${post.platforms.map(p => `<span class="platform-badge ${p}">${p}</span>`).join('')}
+                            </div>
+                            <span class="post-status status-published">published</span>
+                        </div>
+                        <div class="post-content">
+                            ${post.caption || 'No caption'} ${post.hashtags || ''}
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-time">
+                                ✅ Published: ${new Date(post.published_at || post.scheduled_at).toLocaleString()}
+                            </div>
+                            ${post.posts_results ? `
+                                <div class="post-actions">
+                                    <a href="#">View Results ↗</a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-title">Error loading posts</div>
+                        <div>${error.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Fetch Pending Posts
+        async function fetchPendingPosts() {
+            const container = document.getElementById('pendingPostsList');
+
+            try {
+                const response = await fetch('/posts');
+                const data = await response.json();
+                const pendingPosts = (data.posts || []).filter(p => p.state === 'pending');
+
+                if (pendingPosts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <div class="empty-title">No pending posts</div>
+                            <div>Schedule a new post to get started!</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = pendingPosts.map((post, i) => `
+                    <div class="post-card" style="animation-delay: ${i * 0.05}s">
+                        <div class="post-header">
+                            <div class="post-platforms">
+                                ${post.platforms.map(p => `<span class="platform-badge ${p}">${p}</span>`).join('')}
+                            </div>
+                            <span class="post-status status-pending">pending</span>
+                        </div>
+                        <div class="post-content">
+                            ${post.caption || 'No caption'} ${post.hashtags || ''}
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-time">
+                                📅 Scheduled for: ${new Date(post.scheduled_at).toLocaleString()}
+                                <span class="countdown" data-time="${post.scheduled_at}"></span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Start countdown timers
+                updateCountdowns();
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-title">Error loading posts</div>
+                        <div>${error.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Store active intervals to prevent overlapping animations
+        const activeIntervals = {};
+
+        function animateValue(id, value) {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            // Clear any existing interval for this element
+            if (activeIntervals[id]) {
+                clearInterval(activeIntervals[id]);
+                delete activeIntervals[id];
+            }
+
+            const current = parseInt(el.textContent) || 0;
+
+            // If already at target value, just set it
+            if (current === value) {
+                el.textContent = value;
+                return;
+            }
+
+            const increment = value > current ? 1 : -1;
+            const duration = 500;
+            const steps = Math.abs(value - current);
+            const stepTime = steps > 0 ? duration / steps : 0;
+
+            let counter = current;
+            const timer = setInterval(() => {
+                counter += increment;
+                el.textContent = counter;
+
+                if ((increment > 0 && counter >= value) || (increment < 0 && counter <= value)) {
+                    el.textContent = value;
+                    clearInterval(timer);
+                    delete activeIntervals[id];
+                }
+            }, stepTime);
+
+            // Store the interval reference
+            activeIntervals[id] = timer;
+        }
+
+        // Countdown timers
+        function updateCountdowns() {
+            document.querySelectorAll('.countdown').forEach(el => {
+                const time = new Date(el.dataset.time);
+                const now = new Date();
+                const diff = time - now;
+
+                if (diff > 0) {
+                    const hours = Math.floor(diff / 3600000);
+                    const mins = Math.floor((diff % 3600000) / 60000);
+                    el.textContent = hours > 0 ? `• in ${hours}h ${mins}m` : `• in ${mins}m`;
+                }
+            });
+        }
+
+        setInterval(updateCountdowns, 60000);
+
+        // Form Submit
+        document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked')).map(cb => cb.value);
+
+            const formData = new FormData();
+            formData.append('user_id', document.getElementById('user_id').value);
+            formData.append('caption', document.getElementById('caption').value);
+            formData.append('hashtags', document.getElementById('hashtags').value);
+            formData.append('scheduled_at', new Date(document.getElementById('scheduled_at').value).toISOString());
+            formData.append('platforms', JSON.stringify(platforms));
+
+            // Add Whop data if selected
+            const whopCampaignSelect = document.getElementById('whop_campaign');
+            const whopRewardSelect = document.getElementById('content_reward');
+
+            if (whopCampaignSelect && whopCampaignSelect.value) {
+                formData.append('whop_campaign_url', whopCampaignSelect.value);
+
+                if (whopRewardSelect && whopRewardSelect.value) {
+                    formData.append('whop_reward_title', whopRewardSelect.value);
+                    formData.append('whop_reward_id', whopRewardSelect.options[whopRewardSelect.selectedIndex].dataset.rewardId || whopRewardSelect.value);
+                }
+            }
+
+            const fileInput = document.getElementById('video_file');
+            if (fileInput.files.length > 0) {
+                formData.append('video_file', fileInput.files[0]);
+            } else {
+                showToast('error', 'Missing File', 'Please upload a video file.');
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                return;
+            }
+
+            try {
+                const response = await fetch('/webhook/schedule-post', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('success', 'Post Scheduled!', 'Your video will be published at the scheduled time.');
+                    createConfetti();
+                    fetchPosts();
+
+                    // Reset form
+                    document.getElementById('video_file').value = '';
+                    document.getElementById('uploadZone').classList.remove('has-file');
+                    initDateTime();
+                } else {
+                    showToast('error', 'Scheduling Failed', data.error || 'Please try again.');
+                }
+            } catch (error) {
+                showToast('error', 'Network Error', 'Could not connect to server.');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Toast Notifications
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${type === 'success' ? '✅' : '❌'}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            const colors = ['#6366f1', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+            const container = document.createElement('div');
+            container.className = 'confetti';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = `${Math.random() * 100}vw`;
+                piece.style.top = '-20px';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                piece.style.animationDelay = `${Math.random() * 0.5}s`;
+                piece.style.animationDuration = `${2 + Math.random() * 2}s`;
+                container.appendChild(piece);
+            }
+
+            setTimeout(() => container.remove(), 4000);
+        }
+
+
+        // User Menu Dropdown
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (userMenu && dropdown && !userMenu.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Handle Logout
+        async function handleLogout() {
+            if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
+                try {
+                    // Call server to clear cookie
+                    await fetch('/auth/logout', { method: 'POST' });
+                } catch (e) {
+                    console.error('Logout error:', e);
+                }
+
+                // Clear client session data
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // Redirect to login
+                window.location.href = '/login.html';
+            }
+        }
+
+
+        // Initialize all sections on page load
+        window.addEventListener('load', () => {
+            // Initialize stats to 0
+            updateStats([]);
+
+            // Fetch all data
+            fetchPosts();
+            fetchPublishedPosts();
+            fetchPendingPosts();
+        });
+
+        // Whop Platform Toggle with Auto-Load
+        const whopCheckbox = document.querySelector('.platform-option.whop input');
+        const whopSections = document.querySelectorAll('.whop-section');
+
+        if (whopCheckbox) {
+            whopCheckbox.addEventListener('change', async function () {
+                whopSections.forEach(section => {
+                    section.style.display = this.checked ? 'block' : 'none';
+                });
+
+                // Auto-load campaigns when Whop is checked
+                if (this.checked) {
+                    await loadWhopCampaigns();
+                }
+            });
+        }
+
+        // Load Whop Campaigns
+        async function loadWhopCampaigns() {
+            const campaignSelect = document.getElementById('whop_campaign');
+
+            // Show loading state
+            campaignSelect.innerHTML = '<option value="">⏳ Cargando campañas...</option>';
+            campaignSelect.disabled = true;
+
+            try {
+                const response = await fetch('/whop/campaigns');
+                const result = await response.json();
+
+                if (result.success && result.campaigns && result.campaigns.length > 0) {
+                    campaignSelect.innerHTML = '<option value="">Selecciona una campaña...</option>';
+
+                    result.campaigns.forEach(campaign => {
+                        const option = document.createElement('option');
+                        option.value = campaign.url;
+
+                        // Clean up the name: remove numbers and newlines at the start
+                        let cleanName = campaign.name
+                            .replace(/^\d+\s*\n?\s*/g, '')  // Remove leading numbers and newlines
+                            .replace(/\n/g, ' ')            // Replace remaining newlines with spaces
+                            .trim();                        // Remove extra whitespace
+
+                        option.textContent = cleanName;
+                        option.dataset.id = campaign.id;
+                        campaignSelect.appendChild(option);
+                    });
+
+                    campaignSelect.disabled = false;
+                    showToast('success', 'Campañas cargadas', `${result.campaigns.length} campañas encontradas`);
+                } else {
+                    campaignSelect.innerHTML = '<option value="">❌ No se encontraron campañas</option>';
+                    showToast('error', 'Error', result.error || 'No se pudieron cargar las campañas');
+                }
+            } catch (error) {
+                console.error('Error loading campaigns:', error);
+                campaignSelect.innerHTML = '<option value="">❌ Error al cargar</option>';
+                showToast('error', 'Error', 'Error al cargar campañas de Whop');
+            }
+        }
+
+        // Campaign Selection Handler
+        const campaignSelect = document.getElementById('whop_campaign');
+        if (campaignSelect) {
+            campaignSelect.addEventListener('change', async function () {
+                const campaignUrl = this.value;
+
+                if (!campaignUrl) {
+                    document.getElementById('content_reward').innerHTML = '<option value="">Selecciona Reward...</option>';
+                    return;
+                }
+
+                await loadWhopRewards(campaignUrl);
+            });
+        }
+
+        // Load Whop Rewards for Selected Campaign
+        async function loadWhopRewards(campaignUrl) {
+            const rewardSelect = document.getElementById('content_reward');
+
+            // Show loading state
+            rewardSelect.innerHTML = '<option value="">⏳ Cargando rewards...</option>';
+            rewardSelect.disabled = true;
+
+            try {
+                const response = await fetch(`/whop/rewards?campaignUrl=${encodeURIComponent(campaignUrl)}`);
+                const result = await response.json();
+
+                if (result.success && result.rewards && result.rewards.length > 0) {
+                    rewardSelect.innerHTML = '<option value="">Selecciona un reward...</option>';
+
+                    result.rewards.forEach(reward => {
+                        const option = document.createElement('option');
+                        // Store title as value for automated submission
+                        option.value = reward.title;
+                        option.textContent = reward.title;
+                        // Add budget info if available
+                        if (reward.budgetPaid && reward.budgetTotal) {
+                            option.textContent += ` (${reward.budgetPaid}/${reward.budgetTotal} US$)`;
+                        }
+                        option.dataset.rewardId = reward.id;
+                        rewardSelect.appendChild(option);
+                    });
+
+                    rewardSelect.disabled = false;
+                    showToast('success', 'Rewards cargados', `${result.rewards.length} rewards encontrados`);
+                } else {
+                    rewardSelect.innerHTML = '<option value="">❌ No hay rewards activos</option>';
+                    const errorMsg = result.error || 'Esta campaña no tiene content rewards activos';
+                    showToast('warning', 'Sin rewards', errorMsg);
+                }
+            } catch (error) {
+                console.error('Error loading rewards:', error);
+                rewardSelect.innerHTML = '<option value="">❌ Error al cargar</option>';
+                showToast('error', 'Error', 'Error al cargar rewards');
+            }
+        }
+    </script>
+</body>
+
+</html>
